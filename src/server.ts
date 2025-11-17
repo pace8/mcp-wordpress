@@ -96,6 +96,27 @@ async function startHttpServer(logToFile: (message: string) => void) {
         exposedHeaders: ['Mcp-Session-Id']
     }));
 
+    const requiredToken = process.env.MCP_API_TOKEN;
+    if (requiredToken) {
+        app.use((req: Request, res: Response, next) => {
+            const authHeader = req.headers.authorization;
+            if (authHeader === `Bearer ${requiredToken}`) {
+                next();
+                return;
+            }
+            res.status(401).json({
+                jsonrpc: '2.0',
+                error: {
+                    code: -32001,
+                    message: 'Unauthorized'
+                },
+                id: null
+            });
+        });
+    } else {
+        logToFile('Warning: MCP_API_TOKEN is not set; HTTP transport is running without authentication.');
+    }
+
     const sessions = new Map<string, SessionEntry>();
 
     const createSession = () => {
