@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package*.json tsconfig.json ./
 
 # Dependencies installeren (incl. devDependencies, dus TypeScript)
-RUN npm install
+RUN npm install --include=dev --ignore-scripts
 
 # Nu de rest van de code kopiëren
 COPY . .
