@@ -20,4 +20,4 @@ ENV PORT=8080
 EXPOSE 8080
 
 # Start de server – pas aan als jouw entry anders heet
-CMD ["node", "dist/server.js"]
+CMD ["node", "build/server.js"]
