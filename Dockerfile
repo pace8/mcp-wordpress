@@ -3,8 +3,8 @@ FROM node:22-alpine
 # Werkmap in de container
 WORKDIR /app
 
-# Eerst alleen package.json (en eventueel package-lock) kopiëren
-COPY package*.json ./
+# Eerst alleen package.json, lockfiles en tsconfig kopiëren
+COPY package*.json tsconfig.json ./
 
 # Dependencies installeren (incl. devDependencies, dus TypeScript)
 RUN npm install
